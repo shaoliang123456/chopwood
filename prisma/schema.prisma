@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
+  provider     = "sqlite"
+  url          = "file:./dev.db"
   relationMode = "prisma"
 }
 
@@ -19,7 +19,7 @@ model Projects {
   stacks      String
   is_show     Boolean  @default(true)
   updated_at  DateTime @default(now())
-  content     String?  @db.Text
+  content     String?
   is_featured Boolean  @default(false)
 }
 
