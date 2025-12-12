@@ -2,17 +2,17 @@ export const siteMetadata = {
   siteUrl: 'https://webjam.cn',
   siteRepo: 'https://github.com/wencaizhang/wencaizhang.github.io/tree/nextjs',
   siteLogo: '/images/logo.jpg',
-  siteShortTitle: 'WebJAM',
-  siteTitle: "前端果酱开发历险记- Wencai's coding journey",
+  siteShortTitle: 'chopwd', // Used as logo text in header, footer, and splash screen
+  siteTitle: 'Full stack web developer',
   siteScreenshot: '',
   siteDescription:
-    '经验丰富的软件工程师，尤其是前端方面的软件工程师，热衷于创建像素完美的网络体验。我使用 JavaScript 并专注于万事万物网络。我热衷于与团队合作，交付高效、可扩展且具有视觉吸引力的 Web 应用程序。',
-  author: 'WebJAM',
-  fullName: 'WebJAM',
-  location: '[::1]:443 - China',
+    '全栈软件工程师，拥有丰富的设计、构建和部署现代可扩展应用程序的经验，擅长将复杂的问题转化为干净、高效的解决方案——无论是在前端、后端还是两者之间的任何地方。擅长与团队合作构建可扩展和持久的系统。如果你对高质量的工程感兴趣，并着眼于未来，请随时与我联系。',
+  author: 'chopwood',
+  fullName: 'chopwood',
+  location: 'China',
   timeZone: 'Asia/Shanghai',
   locationIcon: '🇨🇳',
-  // locationIcon: 'flag-china',
+  //  locationIcon: 'flag-china',
   position: 'Full Stack Web Developer',
   company: '',
   companySite: '',
@@ -62,8 +62,8 @@ export const commentConfig = {
 export const socialAccounts = {
   x: '',
   instagram: '',
-  email: 'zwcxyz@gmail.com',
-  github: 'https://github.com/wencaizhang',
+  email: 'chopwood@qq.com',
+  github: 'https://github.com/shaoliang123456',
   twitter: '',
   facebook: '',
   youtube: '',
@@ -71,21 +71,22 @@ export const socialAccounts = {
 };
 
 export const author = {
-  name: 'wencaizhang',
-  location: '[::1]:443 - China',
+  name: 'chopwd',
+  location: 'China',
   timeZone: 'Asia/Shanghai',
   locationIcon: '🇨🇳',
-  position: 'Full Stack Web Developer',
+  position: 'Full-Stack Software Engineer | AI Enthusiast',
+  greetings: '代码雕刻想法，产品回应世界',
   calMeetingUrl: '',
   status: 'Working remotely around the world',
   workingOn: `I assist brands, companies, institutions, and startups in creating
   exceptional digital experiences for their businesses through strategic
   development services.`,
   workTogether: `I'm open for freelance projects, feel free to email me to see how can we collaborate.`,
-  wakatime: 'https://wakatime.com/@wencaizhang',
+  wakatime: '',
   github_accounts: [
     {
-      username: 'wencaizhang',
+      username: 'shaoliang123456',
       token: process.env.GITHUB_READ_USER_TOKEN_PERSONAL,
       endpoint: '/api/github?type=personal',
       type: 'personal',
