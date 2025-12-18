@@ -1,6 +1,5 @@
 export const siteMetadata = {
   siteUrl: 'https://webjam.cn',
-  siteRepo: 'https://github.com/wencaizhang/wencaizhang.github.io/tree/nextjs',
   siteLogo: '/images/logo.jpg',
   siteShortTitle: 'chopwd', // Used as logo text in header, footer, and splash screen
   siteTitle: 'Full stack web developer',
@@ -60,22 +59,21 @@ export const commentConfig = {
 };
 
 export const socialAccounts = {
-  x: '',
+  x: 'https://x.com/shaoliang8',
   instagram: '',
   email: 'chopwood@qq.com',
   github: 'https://github.com/shaoliang123456',
-  twitter: '',
   facebook: '',
   youtube: '',
   linkedin: '',
 };
 
 export const author = {
-  name: 'chopwd',
+  name: 'chopwood',
   location: 'China',
   timeZone: 'Asia/Shanghai',
   locationIcon: '🇨🇳',
-  position: 'Full-Stack Software Engineer | AI Enthusiast',
+  position: 'Full-Stack Software Engineer | AI Enthusiast | Code craftsman',
   greetings: '代码雕刻想法，产品回应世界',
   calMeetingUrl: '',
   status: 'Working remotely around the world',
@@ -83,7 +81,7 @@ export const author = {
   exceptional digital experiences for their businesses through strategic
   development services.`,
   workTogether: `I'm open for freelance projects, feel free to email me to see how can we collaborate.`,
-  wakatime: '',
+  wakatime: 'https://wakatime.com/@chopwood',
   github_accounts: [
     {
       username: 'shaoliang123456',
@@ -102,7 +100,7 @@ export const featureSwich = {
   meeting: false,
   guestbook: false,
   spotify: false,
-  dashboard_wakatime: false,
+  dashboard_wakatime: true,
   dashboard_github: true,
   topBanner: true,
 };
