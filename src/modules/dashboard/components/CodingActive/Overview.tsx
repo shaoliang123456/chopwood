@@ -19,6 +19,7 @@ interface OverviewProps {
 }
 
 const Overview = ({ data }: OverviewProps) => {
+  console.log('Overview data:', data);
   const dailyTotal = data?.human_readable_total || 'N/A';
   const dailyAverage = data?.human_readable_daily_average || 'N/A';
   const bestDayText = data?.best_day?.text || 'N/A';
@@ -26,6 +27,7 @@ const Overview = ({ data }: OverviewProps) => {
   const allTimeSinceToday = data?.all_time_since_today?.text || 'N/A';
   const startDate = data?.start_date ? formatDate(data.start_date) : '';
   const endDate = data?.end_date ? formatDate(data.end_date) : '';
+
   const bestDay = bestDayDate
     ? `${formatDate(bestDayDate)} (${bestDayText})`
     : 'N/A';

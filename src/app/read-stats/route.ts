@@ -12,7 +12,8 @@ export async function GET(): Promise<Response> {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 's-maxage=60, stale-while-revalidate=30', // 缓存60秒，过期后30秒内可使用旧数据
+        'Cache-Control': 's-maxage=300, stale-while-revalidate=30', // 缓存300秒，过期后30秒内可使用旧数据
+        //'Cache-Control': 'no-store', // 调试时禁用缓存，确保每次请求都直达后端
       },
     });
   } catch (error) {

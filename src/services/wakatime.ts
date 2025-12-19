@@ -35,6 +35,7 @@ export const getReadStats = async (): Promise<{
   data: any;
 }> => {
   const res = await getAccessToken();
+
   const access_token = res.substring(
     res.indexOf('=') + 1,
     res.lastIndexOf('&refresh_token')
@@ -54,8 +55,6 @@ export const getReadStats = async (): Promise<{
 
   const getData = response.data;
 
-  const start_date = getData?.data?.start;
-  const end_date = getData?.data?.end;
   const last_update = getData?.data?.modified_at;
 
   const categories = getData?.data?.categories;
@@ -76,8 +75,6 @@ export const getReadStats = async (): Promise<{
     status,
     data: {
       last_update,
-      start_date,
-      end_date,
       categories,
       best_day,
       human_readable_daily_average,
@@ -113,6 +110,8 @@ export const getALLTimeSinceToday = async (): Promise<{
   const data = {
     text: getData?.data?.text,
     total_seconds: getData?.data?.total_seconds,
+    start_date: getData?.data?.range?.start_date,
+    end_date: getData?.data?.range?.end_date,
   };
 
   return {
