@@ -30,3 +30,13 @@ model ContentMeta {
   views       Int      @default(0)
   updated_at  DateTime @default(now())
 }
+
+model IntegrationToken {
+  id            Int      @id @default(autoincrement())
+  provider      String   @unique
+  access_token  String?
+  refresh_token String
+  expires_at    DateTime?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
