@@ -6,8 +6,7 @@ import prisma from '@/common/libs/prisma';
 
 const CLIENT_ID = process.env.WAKATIME_CLIENT_ID;
 const CLIENT_SECRET = process.env.WAKATIME_CLIENT_SECRET;
-const ENV_REFRESH_TOKEN = process.env.WAKATIME_CLIENT_REFRESH_TOKEN;
-const PROVIDER = 'wakatime';
+const ENV_REFRESH_TOKEN = process.env.WAKATIME_CLIENT_REFRESH_TOKEN || '';
 
 const STATS_ENDPOINT = 'https://wakatime.com/api/v1/users/current/stats';
 const ALL_TIME_SINCE_TODAY =
@@ -16,34 +15,33 @@ const TOKEN_ENDPOINT = 'https://wakatime.com/oauth/token';
 
 type TokenResponse = {
   accessToken: string;
-  refreshToken?: string;
-  expiresIn: number;
+  refreshToken: string;
+  expireAt: Date | null;
 };
 
-const getStoredRefreshToken = async (): Promise<string | null> => {
+let tokenCache: TokenResponse | null = null;
+
+const getRefreshToken = async (): Promise<string | null> => {
   const record = await prisma.integrationToken.findUnique({
-    where: { provider: PROVIDER },
+    where: { provider: 'wakatime' },
   });
-  return record?.refreshToken ?? null;
+  return record?.refreshToken ?? ENV_REFRESH_TOKEN;
 };
 
 const upsertToken = async (
   tokenData: TokenResponse,
   refreshTokenUsed: string
 ) => {
-  const expiresAt = tokenData.expiresIn
-    ? new Date(Date.now() + tokenData.expiresIn * 1000)
-    : null;
-
+  const expiresAt = tokenData.expireAt;
   await prisma.integrationToken.upsert({
-    where: { provider: PROVIDER },
+    where: { provider: 'wakatime' },
     update: {
       accessToken: tokenData.accessToken,
       refreshToken: tokenData.refreshToken || refreshTokenUsed,
       expiresAt: expiresAt,
     },
     create: {
-      provider: PROVIDER,
+      provider: 'wakatime',
       accessToken: tokenData.accessToken,
       refreshToken: tokenData.refreshToken || refreshTokenUsed,
       expiresAt: expiresAt,
@@ -52,11 +50,35 @@ const upsertToken = async (
 };
 
 export const getAccessToken = async (): Promise<TokenResponse> => {
-  const storedRefreshToken = await getStoredRefreshToken();
-  const refreshTokenToUse = storedRefreshToken || ENV_REFRESH_TOKEN;
+  if (tokenCache) {
+    if (tokenCache.expireAt && tokenCache.expireAt.getTime() > Date.now()) {
+      return tokenCache;
+    }
+  }
+  const dbTokenRecord = await prisma.integrationToken.findFirst({
+    where: {
+      provider: 'wakatime',
+      expiresAt: {
+        gt: new Date().toISOString(),
+      },
+    },
+  });
+  if (dbTokenRecord) {
+    tokenCache = {
+      accessToken: dbTokenRecord.accessToken,
+      refreshToken: dbTokenRecord.refreshToken || '',
+      expireAt: dbTokenRecord.expiresAt,
+    };
+    return tokenCache;
+  }
 
-  if (!CLIENT_ID || !CLIENT_SECRET || !refreshTokenToUse) {
-    throw new Error('Wakatime client or refresh token is missing.');
+  const refreshToken = await getRefreshToken();
+  if (!CLIENT_ID || !CLIENT_SECRET || !refreshToken) {
+    return {
+      accessToken: '',
+      refreshToken: '',
+      expireAt: null,
+    };
   }
 
   const response = await axios.post(
@@ -65,7 +87,7 @@ export const getAccessToken = async (): Promise<TokenResponse> => {
       grant_type: 'refresh_token',
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
-      refresh_token: refreshTokenToUse,
+      refresh_token: refreshToken,
     }),
     {
       headers: {
@@ -76,7 +98,9 @@ export const getAccessToken = async (): Promise<TokenResponse> => {
 
   const tokenData: TokenResponse = response.data;
 
-  await upsertToken(tokenData, refreshTokenToUse);
+  tokenCache = tokenData;
+
+  await upsertToken(tokenData, refreshToken);
 
   return tokenData;
 };
