@@ -39,14 +39,12 @@ const upsertToken = async (
       accessToken: tokenData.accessToken,
       refreshToken: tokenData.refreshToken || refreshTokenUsed,
       expiresAt: expiresAt,
-      updatedAt: new Date(),
     },
     create: {
       provider: 'wakatime',
       accessToken: tokenData.accessToken,
       refreshToken: tokenData.refreshToken || refreshTokenUsed,
       expiresAt: expiresAt,
-      updatedAt: new Date(),
     },
   });
 };
