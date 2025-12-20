@@ -39,12 +39,14 @@ const upsertToken = async (
       accessToken: tokenData.accessToken,
       refreshToken: tokenData.refreshToken || refreshTokenUsed,
       expiresAt: expiresAt,
+      updatedAt: new Date(),
     },
     create: {
       provider: 'wakatime',
       accessToken: tokenData.accessToken,
       refreshToken: tokenData.refreshToken || refreshTokenUsed,
       expiresAt: expiresAt,
+      updatedAt: new Date(),
     },
   });
 };
@@ -65,7 +67,7 @@ export const getAccessToken = async (): Promise<TokenResponse> => {
   });
   if (dbTokenRecord) {
     tokenCache = {
-      accessToken: dbTokenRecord.accessToken,
+      accessToken: dbTokenRecord.accessToken || '',
       refreshToken: dbTokenRecord.refreshToken || '',
       expireAt: dbTokenRecord.expiresAt,
     };
