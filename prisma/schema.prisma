@@ -1,5 +1,5 @@
 generator client {
-  provider     = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -24,19 +24,20 @@ model Projects {
 }
 
 model ContentMeta {
-  id          Int      @id @default(autoincrement())
-  slug        String   @unique
-  type        String
-  views       Int      @default(0)
-  updated_at  DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  slug       String   @unique
+  type       String
+  views      Int      @default(0)
+  updated_at DateTime @default(now())
 }
 
 model IntegrationToken {
   id            Int      @id @default(autoincrement())
   provider      String   @unique
-  access_token  String?
-  refresh_token String
-  expires_at    DateTime?
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  
+  accessToken  String? @map("access_token")
+  refreshToken String @map("refresh_token")
+  expiresAt    DateTime? @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @map("updated_at")
 }
