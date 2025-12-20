@@ -1,4 +1,12 @@
 import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
+import { existsSync } from 'fs';
+
+dotenv.config();
+
+if (existsSync('.env.local')) {
+  dotenv.config({ path: '.env.local' });
+}
 
 const prisma = new PrismaClient();
 const PROVIDER = 'wakatime';
@@ -22,7 +30,7 @@ async function main() {
   await prisma.integrationToken.create({
     data: {
       provider: PROVIDER,
-      refresh_token: REFRESH_TOKEN,
+      refreshToken: REFRESH_TOKEN,
     },
   });
 
