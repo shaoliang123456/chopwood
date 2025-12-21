@@ -3,6 +3,7 @@ import axios from 'axios';
 import querystring from 'querystring';
 
 import prisma from '@/common/libs/prisma';
+import { logger } from '@/common/utils/logger';
 
 const CLIENT_ID = process.env.WAKATIME_CLIENT_ID;
 const CLIENT_SECRET = process.env.WAKATIME_CLIENT_SECRET;
@@ -28,30 +29,31 @@ const getRefreshToken = async (): Promise<string | null> => {
   return record?.refreshToken ?? ENV_REFRESH_TOKEN;
 };
 
-const upsertToken = async (
-  tokenData: TokenResponse,
-  refreshTokenUsed: string
-) => {
+const upsertToken = async (tokenData: TokenResponse) => {
+  logger.debug('upsertToken called with:', tokenData);
   const expiresAt = tokenData.expireAt;
-  await prisma.integrationToken.upsert({
+  const result = await prisma.integrationToken.upsert({
     where: { provider: 'wakatime' },
     update: {
       accessToken: tokenData.accessToken,
-      refreshToken: tokenData.refreshToken || refreshTokenUsed,
+      refreshToken: tokenData.refreshToken,
       expiresAt: expiresAt,
     },
     create: {
       provider: 'wakatime',
       accessToken: tokenData.accessToken,
-      refreshToken: tokenData.refreshToken || refreshTokenUsed,
+      refreshToken: tokenData.refreshToken,
       expiresAt: expiresAt,
     },
   });
+  logger.info('upsertToken: DB upsert result:', result);
 };
 
 export const getAccessToken = async (): Promise<TokenResponse> => {
+  logger.debug('getAccessToken called, tokenCache:', tokenCache);
   if (tokenCache) {
     if (tokenCache.expireAt && tokenCache.expireAt.getTime() > Date.now()) {
+      logger.debug('getAccessToken: using cached token');
       return tokenCache;
     }
   }
@@ -64,6 +66,7 @@ export const getAccessToken = async (): Promise<TokenResponse> => {
     },
   });
   if (dbTokenRecord) {
+    logger.info('getAccessToken: found valid token in DB');
     tokenCache = {
       accessToken: dbTokenRecord.accessToken || '',
       refreshToken: dbTokenRecord.refreshToken || '',
@@ -74,6 +77,9 @@ export const getAccessToken = async (): Promise<TokenResponse> => {
 
   const refreshToken = await getRefreshToken();
   if (!CLIENT_ID || !CLIENT_SECRET || !refreshToken) {
+    logger.error(
+      'getAccessToken: missing CLIENT_ID/CLIENT_SECRET/refreshToken'
+    );
     return {
       accessToken: '',
       refreshToken: '',
@@ -81,6 +87,7 @@ export const getAccessToken = async (): Promise<TokenResponse> => {
     };
   }
 
+  logger.info('getAccessToken: refreshing token from Wakatime');
   const response = await axios.post(
     TOKEN_ENDPOINT,
     querystring.stringify({
@@ -96,12 +103,27 @@ export const getAccessToken = async (): Promise<TokenResponse> => {
     }
   );
 
-  const tokenData: TokenResponse = response.data;
+  const decodedResponseData = decodeURIComponent(response.data);
 
+  const searchParams = new URLSearchParams(decodedResponseData);
+
+  logger.debug('getAccessToken: searchParams', searchParams);
+
+  const access_token = searchParams.get('access_token');
+  const refresh_token = searchParams.get('refresh_token');
+  const expires_at = searchParams.get('expires_at');
+
+  const tokenData: TokenResponse = {
+    accessToken: access_token ?? '',
+    refreshToken: refresh_token ?? refreshToken,
+    expireAt: expires_at ? new Date(expires_at) : null,
+  };
+  logger.debug('getAccessToken: mapped tokenData', tokenData);
   tokenCache = tokenData;
 
-  await upsertToken(tokenData, refreshToken);
+  await upsertToken(tokenData);
 
+  logger.info('getAccessToken: token refreshed and upserted');
   return tokenData;
 };
 
@@ -109,8 +131,10 @@ export const getReadStats = async (): Promise<{
   status: number;
   data: any;
 }> => {
+  logger.debug('getReadStats called');
   const { accessToken } = await getAccessToken();
 
+  logger.debug('getReadStats: using accessToken', accessToken);
   const response = await axios.get(`${STATS_ENDPOINT}/last_7_days`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -118,17 +142,17 @@ export const getReadStats = async (): Promise<{
   });
 
   const status = response.status;
-  // eslint-disable-next-line no-console
-  console.log('chopwood ~ getReadStats ~ status : ', status);
+  logger.info('getReadStats: status', status);
 
-  if (status >= 400) return { status, data: [] };
+  if (status >= 400) {
+    logger.warn('getReadStats: status >= 400, returning empty data');
+    return { status, data: [] };
+  }
 
   const getData = response.data;
 
   const last_update = getData?.data?.modified_at;
-
   const categories = getData?.data?.categories;
-
   const best_day = {
     date: getData?.data?.best_day?.date,
     text: getData?.data?.best_day?.text,
@@ -137,9 +161,18 @@ export const getReadStats = async (): Promise<{
     getData?.data?.human_readable_daily_average_including_other_language;
   const human_readable_total =
     getData?.data?.human_readable_total_including_other_language;
-
   const languages = getData?.data?.languages?.slice(0, 3);
   const editors = getData?.data?.editors;
+
+  logger.debug('getReadStats: parsed data', {
+    last_update,
+    categories,
+    best_day,
+    human_readable_daily_average,
+    human_readable_total,
+    languages,
+    editors,
+  });
 
   return {
     status,
@@ -159,8 +192,10 @@ export const getALLTimeSinceToday = async (): Promise<{
   status: number;
   data: any;
 }> => {
+  logger.debug('getALLTimeSinceToday called');
   const { accessToken } = await getAccessToken();
 
+  logger.debug('getALLTimeSinceToday: using accessToken', accessToken);
   const response = await axios.get(ALL_TIME_SINCE_TODAY, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -169,7 +204,10 @@ export const getALLTimeSinceToday = async (): Promise<{
 
   const status = response.status;
 
-  if (status >= 400) return { status, data: {} };
+  if (status >= 400) {
+    logger.warn('getALLTimeSinceToday: status >= 400, returning empty data');
+    return { status, data: {} };
+  }
 
   const getData = response.data;
 
@@ -179,6 +217,8 @@ export const getALLTimeSinceToday = async (): Promise<{
     start_date: getData?.data?.range?.start_date,
     end_date: getData?.data?.range?.end_date,
   };
+
+  logger.debug('getALLTimeSinceToday: parsed data', data);
 
   return {
     status,

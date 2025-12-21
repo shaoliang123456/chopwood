@@ -1,4 +1,4 @@
-import { getReadStats, getALLTimeSinceToday } from '@/services/wakatime';
+import { getALLTimeSinceToday, getReadStats } from '@/services/wakatime';
 
 export async function GET(): Promise<Response> {
   try {
