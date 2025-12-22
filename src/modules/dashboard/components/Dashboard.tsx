@@ -1,5 +1,5 @@
 import Breakline from '@/common/components/elements/Breakline';
-import { author, featureSwich } from '@/contents/siteMetadata';
+import { author, featureSwitch } from '@/contents/siteMetadata';
 
 import CodingActive from './CodingActive';
 import Contributions from './Contributions';
@@ -7,13 +7,13 @@ import Contributions from './Contributions';
 const Dashboard = () => {
   return (
     <>
-      {featureSwich.dashboard_wakatime && (
+      {featureSwitch.dashboard_wakatime && (
         <>
           <CodingActive />
           <Breakline className='mt-10 mb-8' />
         </>
       )}
-      {featureSwich.dashboard_github &&
+      {featureSwitch.dashboard_github &&
         author.github_accounts &&
         author.github_accounts.length > 0 && (
           <div className='space-y-10'>

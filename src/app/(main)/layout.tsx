@@ -13,7 +13,7 @@ import ProgressBar from '@/common/components/elements/ProgressBar';
 import TopBar from '@/common/components/elements/TopBar';
 import { CommandPaletteProvider } from '@/common/context/CommandPaletteContext';
 import useHasMounted from '@/common/hooks/useHasMounted';
-import { featureSwich } from '@/contents/siteMetadata';
+import { featureSwitch } from '@/contents/siteMetadata';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   const { resolvedTheme } = useTheme();
@@ -33,7 +33,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   }, []);
 
   const Spotify = () => {
-    if (!featureSwich.spotify) {
+    if (!featureSwitch.spotify) {
       return null;
     }
     return isMobile ? <NowPlayingCard /> : <NowPlayingBar />;
@@ -41,7 +41,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
 
   return (
     <CommandPaletteProvider>
-      {featureSwich.topBanner && <TopBar />}
+      {featureSwitch.topBanner && <TopBar />}
       <div
         className={clsx(
           'max-w-6xl mx-auto lg:px-8',

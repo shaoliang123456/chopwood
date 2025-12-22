@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 import { useWindowSize } from 'usehooks-ts';
 
 import useHasMounted from '@/common/hooks/useHasMounted';
-import { featureSwich } from '@/contents/siteMetadata';
+import { featureSwitch } from '@/contents/siteMetadata';
 
 // import ChatButton from '@/modules/chat/components/ChatButton';
 import HeaderSidebar from './header/HeaderSidebar';
@@ -40,7 +40,7 @@ const Layout = ({ children }: LayoutProps) => {
   // const isShowChatButton = pageName !== 'guestbook';
 
   const Spotify = () => {
-    if (!featureSwich.spotify) {
+    if (!featureSwitch.spotify) {
       return null;
     }
     return isMobile ? <NowPlayingCard /> : <NowPlayingBar />;
@@ -48,7 +48,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <>
-      {featureSwich.topBanner && <TopBar />}
+      {featureSwitch.topBanner && <TopBar />}
       <div
         className={clsx(
           'max-w-6xl mx-auto lg:px-8',

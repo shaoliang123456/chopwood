@@ -1,6 +1,5 @@
 import Breakline from '@/common/components/elements/Breakline';
-import { author, featureSwich } from '@/contents/siteMetadata';
-import {} from '@/contents/siteMetadata';
+import { author, featureSwitch } from '@/contents/siteMetadata';
 
 import BookACall from './BookACall';
 import ContactForm from './ContactForm';
@@ -12,14 +11,14 @@ const Contact = () => {
       <SocialMediaList />
       <Breakline />
 
-      {featureSwich.meeting && (
+      {featureSwitch.meeting && (
         <>
           <BookACall calMeetingUrl={author.calMeetingUrl} />
           <Breakline />
         </>
       )}
 
-      {featureSwich.contactForm && (
+      {featureSwitch.contactForm && (
         <div className='space-y-5'>
           <h3 className='text-lg font-medium'>Or send me a message</h3>
           <ContactForm />

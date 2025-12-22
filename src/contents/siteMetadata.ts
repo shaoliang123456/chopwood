@@ -93,7 +93,7 @@ export const author = {
   ],
 };
 
-export const featureSwich = {
+export const featureSwitch = {
   // chatGPT
   ai: false,
   contactForm: true,

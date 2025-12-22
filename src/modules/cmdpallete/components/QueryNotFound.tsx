@@ -8,7 +8,7 @@ import useSWR from 'swr';
 
 import Button from '@/common/components/elements/Button';
 import Loading from '@/common/components/elements/Loading';
-import { docSearch, featureSwich } from '@/contents/siteMetadata';
+import { docSearch, featureSwitch } from '@/contents/siteMetadata';
 import { getDocsearchHits } from '@/services/docsearch';
 
 interface QueryNotFoundProps {
@@ -47,13 +47,13 @@ const QueryNotFound = ({
               in this website.
             </p>
             <p className='text-neutral-600 dark:text-neutral-400'>
-              {featureSwich.ai
+              {featureSwitch.ai
                 ? 'Ask my AI Assistant or find in Google instead?'
                 : 'Find in Google instead?'}
             </p>
           </div>
           <div className='flex flex-col lg:flex-row gap-3 w-full justify-center'>
-            {featureSwich.ai && (
+            {featureSwitch.ai && (
               <Button
                 onClick={onAskAiAssistant}
                 className='justify-center bg-green-600!'
