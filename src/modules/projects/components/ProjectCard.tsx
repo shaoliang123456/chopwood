@@ -6,7 +6,7 @@ import Card from '@/common/components/elements/Card';
 import Image from '@/common/components/elements/Image';
 import Tooltip from '@/common/components/elements/Tooltip';
 import { ProjectItemProps } from '@/common/types/projects';
-import { STACKS, defaultStackIcon } from '@/contents/stacks';
+import { STACKS } from '@/contents/stacks';
 
 const ProjectCard = ({
   title,

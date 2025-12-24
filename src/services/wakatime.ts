@@ -3,7 +3,6 @@ import axios from 'axios';
 import querystring from 'querystring';
 
 import prisma from '@/common/libs/prisma';
-import { logger } from '@/common/utils/logger';
 
 const CLIENT_ID = process.env.WAKATIME_CLIENT_ID;
 const CLIENT_SECRET = process.env.WAKATIME_CLIENT_SECRET;
@@ -31,7 +30,7 @@ const getRefreshToken = async (): Promise<string | null> => {
 
 const upsertToken = async (tokenData: TokenResponse) => {
   const expiresAt = tokenData.expireAt;
-  const result = await prisma.integrationToken.upsert({
+  await prisma.integrationToken.upsert({
     where: { provider: 'wakatime' },
     update: {
       accessToken: tokenData.accessToken,
