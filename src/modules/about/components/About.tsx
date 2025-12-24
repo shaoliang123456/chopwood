@@ -3,7 +3,6 @@ import { CareerProps } from '@/common/types/careers';
 import { EducationProps } from '@/common/types/education';
 
 import CareerList from './CareerList';
-import EducationList from './EducationList';
 import Resume from './Resume';
 import Skills from './Skills';
 import Story from './Story';
@@ -34,12 +33,12 @@ const About = ({ about }: { about: AboutProps }) => {
           <CareerList careerList={about.frontMatter.career} />
         </>
       )}
-      {about.frontMatter.education && (
+      {/* {about.frontMatter.education && (
         <>
           <Breakline className='my-8' />
           <EducationList educationList={about?.frontMatter.education} />
         </>
-      )}
+      )} */}
     </>
   );
 };
