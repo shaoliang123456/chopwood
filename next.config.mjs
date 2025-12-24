@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'static.webjam.cn',
+        hostname: 'static.chopwood.me',
       },
     ],
     unoptimized: true, // 静态导出时需要禁用图片优化

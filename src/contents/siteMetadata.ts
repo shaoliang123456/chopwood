@@ -1,5 +1,5 @@
 export const siteMetadata = {
-  siteUrl: 'https://webjam.cn',
+  siteUrl: 'https://chopwood.me',
   siteLogo: '/images/logo.jpg',
   siteShortTitle: 'chopwd', // Used as logo text in header, footer, and splash screen
   siteTitle: 'Full stack web developer',
@@ -18,7 +18,7 @@ export const siteMetadata = {
   locale: 'en-US',
   image: '/images/logo.jpg',
   socialBanner: '/images/logo.jpg',
-  profileCover: 'https://static.webjam.cn/images/bg/wew.png',
+  profileCover: 'https://static.chopwood.me/images/bg/wew.png',
   analytics: {
     // plausibleDataDomain: '',
     // simpleAnalytics: false, // true | false

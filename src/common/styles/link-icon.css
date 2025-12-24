@@ -25,7 +25,8 @@
 .article a[href^='http']::before {
   background-image: url('/icons/brand/link.svg');
 }
-.article a[href*='webjam.cn']::before,
+
+.article a[href*='chopwood.me']::before,
 .article a[href^='/']::before,
 .article a[href^='#']::before {
   background-image: url('/images/logo.jpg');
@@ -356,6 +357,7 @@
 .article a[href*='google.cn']::before {
   background-image: url('/icons/brand/google.svg');
 }
+
 .article a[href*='translate.google.cn']::before {
   background-image: url('/icons/brand/google-translate.svg');
 }
@@ -395,6 +397,7 @@
 .article a[href*='youtube']::before {
   background-image: url('/icons/brand/youtube.svg');
 }
+
 .article a[href*='spotify.com']::before {
   background-image: url('/icons/brand/spotify.svg');
 }
@@ -661,6 +664,7 @@
 .article a[href*='feishu.cn'] {
   color: #1456f0;
 }
+
 .article a[href*='wolai.com'] {
   color: #202124;
 }
