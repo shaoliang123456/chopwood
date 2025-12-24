@@ -79,11 +79,8 @@ describe('Wakatime Service', () => {
       });
 
       const mockTokenResponse = {
-        data: {
-          accessToken: 'new-access-token',
-          refreshToken: 'new-refresh-token',
-          expireAt: new Date(Date.now() + 3600),
-        },
+        // 服务实现中会把 response.data 当成 URL-encoded 字符串用 URLSearchParams 解析
+        data: 'access_token=new-access-token&refresh_token=new-refresh-token',
       };
       (axios.post as any).mockResolvedValue(mockTokenResponse);
 
