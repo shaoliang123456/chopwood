@@ -48,6 +48,7 @@ pnpm new:project
 生成路径：`src/contents/blog/YYYY/YYYY-MM-DD-slug.mdx`
 
 提示输入：
+
 - 文章标题
 - 文章 slug (URL 路径)
 - 文章摘要
@@ -61,6 +62,7 @@ pnpm new:project
 生成路径：`src/contents/snippets/slug.mdx`
 
 提示输入：
+
 - 代码片段标题
 - 代码片段描述
 - 代码片段 slug
@@ -72,6 +74,7 @@ pnpm new:project
 生成路径：`src/contents/learn/category/id-title.mdx`
 
 提示输入：
+
 - 内容 ID
 - 章节 ID
 - 章节标题
@@ -88,6 +91,7 @@ pnpm new:project
 生成路径：`src/contents/weekly/slug.mdx`
 
 提示输入：
+
 - 周刊标题
 - 周刊 slug
 - 周刊描述
@@ -99,6 +103,7 @@ pnpm new:project
 生成路径：`src/contents/project/slug.mdx`
 
 提示输入：
+
 - 项目类型 (self, work, open-source)
 - 项目标题
 - 项目 slug

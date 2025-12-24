@@ -1,5 +1,9 @@
 import { format } from 'date-fns';
-import { projectStates, STACK_CHOICES, cheatsheetTypes } from './plop-templates/config.mjs';
+import {
+  projectStates,
+  STACK_CHOICES,
+  cheatsheetTypes,
+} from './plop-templates/config.mjs';
 
 export default function (plop) {
   // 博客文章生成器
@@ -121,7 +125,7 @@ export default function (plop) {
         type: 'list',
         name: 'type',
         message: '代码片段类型 (例如: npm, js, css):',
-				choices: cheatsheetTypes,
+        choices: cheatsheetTypes,
       },
       {
         type: 'confirm',
@@ -279,11 +283,11 @@ export default function (plop) {
         message: '技术栈 (多选):',
         choices: STACK_CHOICES,
       },
-			{
+      {
         type: 'list',
-       	name: 'state',
+        name: 'state',
         message: '项目状态:',
-				// src/common/types/projects.ts
+        // src/common/types/projects.ts
         choices: projectStates,
       },
     ],
@@ -307,4 +311,4 @@ export default function (plop) {
       ];
     },
   });
-};
+}

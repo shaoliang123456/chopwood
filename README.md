@@ -1,10 +1,10 @@
 # [chopwood.me](https://chopwood.me)
 
-基于wencai的template进行修改和优化，作为个人网站和博客使用。
- 
- - jest 替换成vitest方便进行单元测试
- - wakatime 的access_token 以及 refresh_token 存储到数据库中，避免 token 过期，同时加入缓存提高速度
- - dashboard 页面使用next js 的app router 重构
+基于 wencai 的 template 进行修改和优化，作为个人网站和博客使用。
+
+- jest 替换成 vitest 方便进行单元测试
+- wakatime 的 access_token 以及 refresh_token 存储到数据库中，避免 token 过期，同时加入缓存提高速度
+- dashboard 页面使用 next js 的 app router 重构
 
 ## 如何运行
 
@@ -45,7 +45,6 @@ wencai update:
 - 增加「周刊」功能
 - 一些优化：例如减少 `getStaticProps` 数据体积、链接代替 js 跳转等等
 - 更多小细节...
-
 
 _以下是原 readme_
 
@@ -179,5 +178,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 <br /><br />
 
 ## License
+
 This project is forked and adapted from [aulianza/aulianza.id](https://github.com/aulianza/aulianza.id) and [wencaizhang/webjam.cn](https://github.com/wencaizhang/webjam.cn).
 Licensed under the [GPL-3.0 license](https://github.com/aulianza/aulianza.id/blob/master/LICENSE).
