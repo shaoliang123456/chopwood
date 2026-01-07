@@ -61,6 +61,10 @@ export default function (plop) {
         type: 'input',
         name: 'featured_image_url',
         message: '特色图片 URL (可选):',
+        default: () => {
+          const randomId = Math.floor(Math.random() * 1000) + 1;
+          return `https://picsum.photos/id/${randomId}/400/400`;
+        },
       },
     ],
     actions: (data) => {
