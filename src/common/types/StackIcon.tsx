@@ -139,7 +139,7 @@ export function BrandIcon(props: {
     <div
       className={className || 'h-16 w-16 lg:h-14 lg:w-14 xl:h-20 xl:w-20'}
       style={{
-        backgroundImage: `url(${Icon.src})`,
+        backgroundImage: `url(${Icon})`,
         backgroundPosition: 'center',
         backgroundSize: 'contain',
       }}

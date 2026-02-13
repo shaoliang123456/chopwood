@@ -27,6 +27,21 @@ interface CacheEntry {
   withContent: boolean;
 }
 
+const isMdxDebugEnabled =
+  process.env.MDX_DEBUG === 'true' || process.env.MDX_DEBUG === '1';
+
+const debugLog = (...args: unknown[]) => {
+  if (isMdxDebugEnabled) {
+    console.log(...args);
+  }
+};
+
+const debugWarn = (...args: unknown[]) => {
+  if (isMdxDebugEnabled) {
+    console.warn(...args);
+  }
+};
+
 // 内存缓存
 const cache = new Map<string, CacheEntry>();
 const CACHE_TTL = 1000 * 60 * 5; // 5分钟缓存
@@ -83,21 +98,21 @@ export const _loadMdxFiles = (
   withContent = true
 ): MdxFileProps[] => {
   try {
-    console.log(`Loading MDX files from: ${dirPath}`);
+    debugLog(`Loading MDX files from: ${dirPath}`);
     if (!fs.existsSync(dirPath)) {
-      console.error(`Directory does not exist: ${dirPath}`);
+      debugWarn(`Directory does not exist: ${dirPath}`);
       return [];
     }
 
     const files = fs.readdirSync(dirPath, { recursive: true });
-    console.log(`Found ${files.length} total files in directory`);
+    debugLog(`Found ${files.length} total files in directory`);
 
     const mdxFiles = (files as string[]).filter((file) => {
       // 同时允许 md 和 mdx 文件
       return file.endsWith('.mdx') || file.endsWith('.md');
     });
 
-    console.log(`Found ${mdxFiles.length} MDX/MD files`);
+    debugLog(`Found ${mdxFiles.length} MDX/MD files`);
 
     const contents = mdxFiles.map((file) => {
       try {
@@ -172,7 +187,7 @@ export const _loadMdxFiles = (
       }
     });
 
-    console.log(`Successfully processed ${contents.length} MDX files`);
+    debugLog(`Successfully processed ${contents.length} MDX files`);
     return contents;
   } catch (error) {
     console.error(`Error in _loadMdxFiles:`, error);
@@ -198,7 +213,7 @@ export const getCollection = (
 
     // Check if directory exists
     if (!fs.existsSync(dirPath)) {
-      console.error(`Directory does not exist: ${dirPath}`);
+      debugWarn(`Directory does not exist: ${dirPath}`);
       return [];
     }
 
@@ -211,24 +226,24 @@ export const getCollection = (
       const hasChanged = hasDirectoryChanged(dirPath);
 
       if (isValid && !hasChanged) {
-        console.log(
+        debugLog(
           `✅ Using cached data for ${endpointer} (${cachedEntry.data.length} items, withContent: ${withContent})`
         );
         return cachedEntry.data;
       } else {
-        console.log(
+        debugLog(
           `🔄 Cache invalid for ${endpointer} - reloading (valid: ${isValid}, changed: ${hasChanged})`
         );
       }
     } else {
-      console.log(
+      debugLog(
         `🆕 Loading fresh data for ${endpointer} (withContent: ${withContent})`
       );
     }
 
     // 加载文件，传递 withContent 参数
     const files = _loadMdxFiles(dirPath, withContent);
-    console.log(`Loaded ${files.length} files from ${endpointer}`);
+    debugLog(`Loaded ${files.length} files from ${endpointer}`);
 
     // 排序
     files.sort((a, b) => {
@@ -245,10 +260,10 @@ export const getCollection = (
       withContent,
     };
     cache.set(cacheKey, cacheEntry);
-    console.log(
+    debugLog(
       `💾 Cached ${files.length} files for ${endpointer} (withContent: ${withContent})`
     );
-    console.log(`📊 Total cache entries: ${cache.size}`);
+    debugLog(`📊 Total cache entries: ${cache.size}`);
 
     return files;
   } catch (error) {
@@ -261,26 +276,26 @@ export const getEntry = (
   endpointer: string,
   slug: string
 ): MdxFileProps | null => {
-  console.log(`🔍 Getting entry: ${endpointer}/${slug}`);
+  debugLog(`🔍 Getting entry: ${endpointer}/${slug}`);
 
   // 首先尝试从缓存中获取不包含内容的集合
   const collection = getCollection(endpointer, false);
   const entry = collection.find((item) => item.slug === slug);
 
   if (!entry) {
-    console.log(`❌ Entry not found: ${slug}`);
+    debugLog(`❌ Entry not found: ${slug}`);
     return null;
   }
 
   // 如果找到了条目但没有内容，则尝试单独加载该文件，或者回退到加载整个集合
   if (!entry.content) {
-    console.log(
+    debugLog(
       `📄 Entry [${slug}] found without content. Attempting to load single file.`
     );
     if (entry.filePath) {
       const singleFileEntryData = loadSingleMdxFile(entry.filePath, true);
       if (singleFileEntryData) {
-        console.log(
+        debugLog(
           `✅ Successfully loaded single file content for: ${slug} from ${entry.filePath}`
         );
         // Merge content and props into the existing entry metadata
@@ -293,24 +308,24 @@ export const getEntry = (
         // if getCollection(endpointer, true) is called elsewhere or if this path fails.
         return finalEntry;
       } else {
-        console.warn(
+        debugWarn(
           `⚠️ Failed to load single file content for: ${slug} from path: ${entry.filePath}. Falling back.`
         );
       }
     } else {
-      console.warn(
+      debugWarn(
         `⚠️ FilePath not available for entry: ${slug}. Falling back to full collection load.`
       );
     }
 
     // Fallback: Load the entire collection with content if single load fails or filePath is missing
-    console.log(
+    debugLog(
       `🔄 Falling back to loading full collection with content for: ${endpointer} to find ${slug}`
     );
     const fullCollection = getCollection(endpointer, true);
     const fullEntry = fullCollection.find((item) => item.slug === slug);
     if (fullEntry) {
-      console.log(`✅ Found entry [${slug}] in full collection.`);
+      debugLog(`✅ Found entry [${slug}] in full collection.`);
       return fullEntry;
     } else {
       // This case should ideally not be reached if entry was found in the metadata-only collection.
@@ -322,7 +337,7 @@ export const getEntry = (
     }
   }
 
-  console.log(`✅ Entry found with content: ${slug}`);
+  debugLog(`✅ Entry found with content: ${slug}`);
   return entry;
 };
 
@@ -386,7 +401,7 @@ export const loadSingleMdxFile = (
 export const clearCache = (): void => {
   cache.clear();
   fileStatsCache.clear();
-  console.log('MDX cache cleared');
+  debugLog('MDX cache cleared');
 };
 
 export const getCacheStats = () => {

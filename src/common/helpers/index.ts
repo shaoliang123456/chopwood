@@ -10,18 +10,33 @@ export const formatDate = (date: string, type = 'MMMM dd, yyyy') => {
     return '';
   }
 
-  const formattedDate = format(
-    utcToZonedTime(parseISO(date), siteMetadata.timeZone),
-    type
-  );
-  return formattedDate;
+  try {
+    const parsedDate = parseISO(date);
+    if (Number.isNaN(parsedDate.getTime())) {
+      return '';
+    }
+
+    return format(utcToZonedTime(parsedDate, siteMetadata.timeZone), type);
+  } catch {
+    return '';
+  }
 };
 
-export const getTimestamp = (date: string) => {
-  const [y, m, d] = formatDate(date, 'yyyy MM dd')
-    .split(' ')
-    .map((i) => Number.parseInt(i));
-  return getTime(new Date(y, m, d));
+export const getTimestamp = (date: string | Date | null | undefined) => {
+  if (!date) {
+    return 0;
+  }
+
+  const parsedDate =
+    date instanceof Date
+      ? date
+      : parseISO(typeof date === 'string' ? date : '');
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return 0;
+  }
+
+  return getTime(utcToZonedTime(parsedDate, siteMetadata.timeZone));
 };
 
 export const removeHtmlTags = (html: string) => {
