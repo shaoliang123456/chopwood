@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://webjam.cn
+Host: https://aulianza.id
 
 # Sitemaps
-Sitemap: https://webjam.cn/sitemap.xml
+Sitemap: https://aulianza.id/sitemap.xml

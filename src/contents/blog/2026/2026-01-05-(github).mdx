@@ -5,10 +5,11 @@ summary: A practical walkthrough of submitting a PR
 date: '2026-01-05'
 featured: true
 tags:
-- Engineering
+  - Engineering
 draft: true
 featured_image_url: https://picsum.photos/id/133/400/400
 ---
+
 Recently, a client wanted an internal documentation knowledge base that could also be deployed privately to fit their requirements. After some research, I picked [BookStack](https://www.bookstackapp.com/), an open-source project built with Laravel/PHP that has 18k+ stars on GitHub.
 
 After pulling the code, I started it locally with `docker compose up`. The UI came up, but the container logs showed a fatal error:
@@ -67,4 +68,3 @@ RUN git config --system --add safe.directory /app
 I submitted this change as a PR, and the maintainer merged it quickly.
 
 The takeaway: submitting a PR isn't hard. Sometimes it's just about noticing one small thing and going one step further. If you stay curious, you'll eventually find the perfect fix a project actually needs.
-

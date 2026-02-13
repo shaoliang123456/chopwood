@@ -13,6 +13,7 @@
     "serve-static": "npx serve out",
     "lint": "next lint",
     "lint:fix": "eslint src --fix && pnpm format",
+    "pretypecheck": "rm -rf .next",
     "typecheck": "tsc --noEmit --incremental false",
     "format": "prettier --write .",
     "format:check": "prettier -c .",

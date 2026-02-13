@@ -15,6 +15,12 @@ type Props = {
   params: { slug: string };
 };
 
+function asString(v: unknown, fallback = ''): string {
+  if (typeof v === 'string') return v;
+  if (v == null) return fallback;
+  return String(v);
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = params;
   const blogData = getEntry('blog', slug);
@@ -25,27 +31,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const description =
-    blogData.frontMatter.description || blogData.frontMatter.title;
-  const canonicalUrl = `${siteMetadata.siteUrl}/blog/${slug}`;
+  const fm = blogData.frontMatter as Record<string, unknown>;
+  const title = asString(fm.title, 'Untitled');
+  const summary = asString(fm.summary);
+  const date = asString(fm.date);
+  const featuredImageUrl = asString(fm.featured_image_url);
+
+  const description = summary || title;
+  const canonicalUrl = `${siteMetadata.siteUrl}/blog/${encodeURIComponent(
+    slug
+  )}`;
 
   return {
-    title: `${blogData.frontMatter.title} - Blog ${siteMetadata.author}`,
+    title: `${title} - Blog ${siteMetadata.author}`,
     description,
     openGraph: {
       type: 'article',
       url: canonicalUrl,
-      title: blogData.frontMatter.title,
+      title,
       description,
-      publishedTime: blogData.frontMatter.date,
-      modifiedTime: blogData.frontMatter.date,
-      authors: [siteMetadata.author, 'aulianza'],
-      images: [
-        {
-          url: blogData.frontMatter.featured_image_url,
-        },
-      ],
-      siteName: 'aulianza blog',
+      publishedTime: date || undefined,
+      modifiedTime: date || undefined,
+      authors: [siteMetadata.author],
+      images: featuredImageUrl ? [{ url: featuredImageUrl }] : undefined,
+      siteName: siteMetadata.author,
     },
   };
 }

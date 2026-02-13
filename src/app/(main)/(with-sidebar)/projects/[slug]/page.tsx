@@ -10,6 +10,12 @@ import { ProjectItemProps } from '@/common/types/projects';
 import { siteMetadata } from '@/contents/siteMetadata';
 import ProjectDetail from '@/modules/projects/components/ProjectDetail';
 
+function asString(v: unknown, fallback = ''): string {
+  if (typeof v === 'string') return v;
+  if (v == null) return fallback;
+  return String(v);
+}
+
 // 动态生成 metadata
 export async function generateMetadata({
   params,
@@ -26,29 +32,36 @@ export async function generateMetadata({
   }
 
   const { frontMatter } = entry;
+  const fm = frontMatter as Record<string, unknown>;
+  const title = asString(fm.title, 'Untitled');
+  const description = asString(fm.description);
+  const imageUrl = asString(fm.image);
+  const updatedAt = asString(fm.updated_at);
   const canonicalUrl = `${siteMetadata.siteUrl}/projects/${slug}`;
 
   return {
-    title: `${frontMatter.title} - Project ${siteMetadata.author}`,
-    description: frontMatter.description,
+    title: `${title} - Project ${siteMetadata.author}`,
+    description,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
       type: 'article',
       url: canonicalUrl,
-      title: frontMatter.title,
-      description: frontMatter.description,
-      images: [
-        {
-          url: frontMatter.image,
-          width: 800,
-          height: 600,
-          alt: frontMatter.title,
-        },
-      ],
-      publishedTime: frontMatter.updated_at,
-      modifiedTime: frontMatter.updated_at,
+      title,
+      description,
+      images: imageUrl
+        ? [
+            {
+              url: imageUrl,
+              width: 800,
+              height: 600,
+              alt: title,
+            },
+          ]
+        : undefined,
+      publishedTime: updatedAt || undefined,
+      modifiedTime: updatedAt || undefined,
       authors: [siteMetadata.author],
     },
   };
