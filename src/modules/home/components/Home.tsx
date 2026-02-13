@@ -5,6 +5,7 @@ import { BlogItemProps } from '@/common/types/blog';
 
 import BlogPreview from './BlogPreview';
 import Introduction from './Introduction';
+import SkillsSection from './SkillSection';
 
 const Home = ({ blogList }: { blogList: BlogItemProps[] }) => {
   return (
@@ -12,6 +13,8 @@ const Home = ({ blogList }: { blogList: BlogItemProps[] }) => {
       <Introduction />
       <Breakline className='mt-8 mb-7' />
       <BlogPreview blogList={blogList} />
+      <Breakline className='my-8' />
+      <SkillsSection />
     </>
   );
 };
