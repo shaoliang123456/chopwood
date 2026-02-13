@@ -1,30 +1,30 @@
 ---
-title: 记录一次在 18k Star 项目里提交 PR 的经历
+title: How I Submitted a PR to an 18k-star Project
 slug: (github)
-summary: 如何提交 PR
+summary: A practical walkthrough of submitting a PR
 date: '2026-01-05'
 featured: true
 tags:
-- 程序员
+- Engineering
 draft: true
 featured_image_url: https://picsum.photos/id/133/400/400
 ---
-最近有位客户希望搭建一套公司内部的文档知识库，并且需要能够结合他们的需求做私有化部署。调研之后，我选择了 [BookStack](https://www.bookstackapp.com/)：一个基于 Laravel / PHP 的开源项目，在 GitHub 上有超过 18k Star。
+Recently, a client wanted an internal documentation knowledge base that could also be deployed privately to fit their requirements. After some research, I picked [BookStack](https://www.bookstackapp.com/), an open-source project built with Laravel/PHP that has 18k+ stars on GitHub.
 
-拉取代码后，我用 `docker compose up` 在本地启动项目。从页面现象来看服务已经跑起来了，但容器日志里却出现了一个 fatal 错误：
+After pulling the code, I started it locally with `docker compose up`. The UI came up, but the container logs showed a fatal error:
 
 ```json
 The repository at "/app" does not have the correct ownership and git refuses to use it:
 fatal: detected dubious ownership in repository at '/app'
 ```
 
-这其实是 Git 的安全检查导致的 https://github.com/git/git/blob/v2.35.2/Documentation/RelNotes/2.35.2.txt，Git 2.35.2（及以上）开始，如果它判断某个仓库目录的“所有者/权限”存在可疑情况，会拒绝在该目录上执行 Git 操作。
+This comes from Git's security checks introduced in Git 2.35.2+. If Git decides the ownership/permissions of a repo directory look suspicious, it refuses to run Git operations in that directory.
 
-而在 BookStack 的开发容器里，Git 又是项目正常运行的前置条件之一：一旦仓库被判定为“不安全”，相关的 Git 命令执行失败，容器可能会因为入口脚本或运行流程而直接退出，并且看起来像是“毫无预警”。
+In BookStack's dev container, Git is part of the normal runtime flow. Once the repository is marked “unsafe,” the Git commands fail and the container may exit via the entrypoint script, which can look like it “crashed out of nowhere.”
 
-问题发生的场景是：我们把代码通过 volume 挂载到了容器的 `/app` 目录，而容器内运行进程的用户与宿主机文件的 UID/GID 并不一致，于是触发了 Git 的 dubious ownership 保护。
+In this setup, the code is mounted into the container at `/app` via a volume. The user running inside the container doesn't match the UID/GID of the files on the host, which triggers Git's “dubious ownership” protection.
 
-下面这段是 `docker-compose.yml` 中的配置（`./:/app`）：
+Here is the relevant `docker-compose.yml` config (`./:/app`):
 
 ```yaml
 	app:
@@ -51,21 +51,20 @@ fatal: detected dubious ownership in repository at '/app'
 		entrypoint: /app/dev/docker/entrypoint.app.sh
 ```
 
-在我的环境（Windows + WSL2）下，宿主机上的目录 UID 默认是 `1000`，而 Dockerfile 里 PHP（Apache）进程对应的用户 UID 与之不一致，所以 Git 判定 `/app` 的“所有权”不可靠，最终出现上述 fatal 错误。
+In my environment (Windows + WSL2), the host directory UID defaults to `1000`, but the PHP (Apache) user inside the container had a different UID. Git therefore considered `/app` ownership unreliable and threw the fatal error.
 
-其实在 macOS 下也会遇到类似问题：mac 的默认 UID 通常也是 `501`，而容器内 PHP 用户往往不是同一个 UID，因此同样会触发 Git 的安全检查。这种跨平台开发环境下，挂载目录 UID 不一致是很常见的现象。
+You can hit a similar issue on macOS: the default UID is often `501`, and the container user usually doesn't match. In cross-platform dev setups, mismatched volume ownership is common.
 
-解决思路也很直接：既然 `/app` 本身就是项目目录（并且我们明确知道它来自可信的代码挂载），那就把它标记为 Git 的安全目录即可。
+The fix is straightforward: since `/app` is the project directory and we know it's a trusted mount, we can mark it as a safe Git directory.
 
-最后我选择在 Dockerfile 里修复，这样开发环境与生产环境都能一并生效：
+I chose to fix it in the Dockerfile so it applies consistently:
 
 ```dockerfile
 # Mark /app as safe for Git >= 2.35.2
 RUN git config --system --add safe.directory /app
 ```
 
-最后我把这个改动提交了 PR，作者也很快合并了。
+I submitted this change as a PR, and the maintainer merged it quickly.
 
-我想说的是：提交 PR 并不难，有时候真的就是机缘巧合。只要你细心观察、愿意多走一步，就能在合适的开源项目里找到“正好需要你”的修复点。
-
+The takeaway: submitting a PR isn't hard. Sometimes it's just about noticing one small thing and going one step further. If you stay curious, you'll eventually find the perfect fix a project actually needs.
 

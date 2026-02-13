@@ -14,9 +14,9 @@ const PAGE_TITLE = 'Blog';
 function convertToBlogItemProps(mdxFiles: MdxFileProps[]): BlogItemProps[] {
   return mdxFiles.map((file) => ({
     ...file,
-    content: file.content || '', // 确保 content 不为 undefined
+    content: file.content || '',
     props: {
-      readingTimeMinutes: file.props?.readingTimeMinutes || 5, // 使用实际的阅读时间或默认值
+      readingTimeMinutes: file.props?.readingTimeMinutes || 5,
     },
     frontMatter: {
       title: String(file.frontMatter.title || ''),
@@ -38,12 +38,9 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   try {
-    console.log('Fetching blog posts...');
     // 对于列表页面，我们不需要完整的内容，只需要 frontMatter
     const mdxFiles = getCollection('blog', false);
-    console.log(`Found ${mdxFiles.length} posts`);
 
-    // 转换为BlogItemProps类型
     const posts = convertToBlogItemProps(mdxFiles);
 
     const pageSize = siteMetadata.postPageSize || 10;

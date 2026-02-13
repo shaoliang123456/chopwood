@@ -63,11 +63,13 @@ export const parseUrl = (url: string): ParsedUrlProps => {
 };
 
 export const removeHtmlTags = (html: string) => {
+  if (!html) return '';
+
   if (typeof DOMParser !== 'undefined') {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent || '';
   } else {
-    return html;
+    return html.replace(/<[^>]*>/g, ' ');
   }
 };
 
@@ -83,10 +85,31 @@ export const formatExcerpt = (content: string, maxLength = 100) => {
   return trimmed + (cleanedContent.length > maxLength ? '...' : '');
 };
 
-export const calculateReadingTime = (content: string, wordsPerMinute = 5) => {
-  const cleanedContent = formatExcerpt(content);
-  const readingTimeMinutes = Math.ceil(
-    cleanedContent.split(/\s+/).length / wordsPerMinute
-  );
-  return readingTimeMinutes;
+const normalizeForReadingTime = (content: string) => {
+  return removeHtmlTags(
+    content
+      .replace(/```[\s\S]*?```/g, ' ')
+      .replace(/`[^`]*`/g, ' ')
+      .replace(/!\[[^\]]*]\([^)]+\)/g, ' ')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/(^|\s)#{1,6}\s+/gm, ' ')
+      .replace(/(^|\s)[>*-]\s+/gm, ' ')
+      .replace(/(\*\*|__|\*|_|~~)/g, ' ')
+      .replace(/<\/?[^>]+(>|$)/g, ' ')
+  )
+    .replace(/\s+/g, ' ')
+    .trim();
+};
+
+export const calculateReadingTime = (content: string, wordsPerMinute = 250) => {
+  const cleanedContent = normalizeForReadingTime(content);
+  if (!cleanedContent) return 1;
+
+  const cjkCount = (cleanedContent.match(/[\u4e00-\u9fff]/g) || []).length;
+  const nonCjkContent = cleanedContent.replace(/[\u4e00-\u9fff]/g, ' ');
+  const wordCount =
+    nonCjkContent.split(/\s+/).filter(Boolean).length + cjkCount;
+  const readingTimeMinutes = Math.ceil(wordCount / wordsPerMinute);
+
+  return Math.max(1, readingTimeMinutes);
 };

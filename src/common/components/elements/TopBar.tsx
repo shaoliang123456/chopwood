@@ -15,7 +15,7 @@ const TopBar = () => {
       style={{ backgroundImage: bg }}
     >
       <span>🌟🍺✨🎉</span>
-      <span>你好，2026</span>
+      <span>Hello, 2026</span>
       <span>🎉✨🍺🌟</span>
       <a
         href={siteMetadata.siteUrl}

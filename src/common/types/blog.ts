@@ -12,6 +12,7 @@ export type UserProps = {
 export type BlogItemProps = {
   slug: string;
   content: string;
+  views?: number;
   props: {
     readingTimeMinutes: number;
   };
@@ -29,6 +30,7 @@ export type BlogItemProps = {
 export type BlogDetailProps = {
   slug: string;
   content: string;
+  page_views_count?: number;
   props: {
     readingTimeMinutes: number;
   };

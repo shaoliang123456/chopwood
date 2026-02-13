@@ -46,17 +46,20 @@ export default async function LearnPage() {
       <Container>
         <PageHeading title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
 
-        {/* 新文档体验入口 */}
+        {/* New docs experience entry */}
         {/* <div className='mb-8 p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg'>
-          <h3 className='text-xl font-semibold mb-2'>尝试新的文档体验</h3>
+          <h3 className='text-xl font-semibold mb-2'>
+            Try the new docs experience
+          </h3>
           <p className='mb-4'>
-            我们正在测试一个新的文档布局，提供更好的阅读和导航体验。
+            We're testing a new documentation layout with improved reading and
+            navigation.
           </p>
           <Link
             href='/learn-docs'
             className='inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors'
           >
-            查看新文档
+            View new docs
           </Link>
         </div> */}
 

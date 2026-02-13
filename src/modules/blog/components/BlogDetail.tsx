@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Breakline from '@/common/components/elements/Breakline';
 import MDXComponent from '@/common/components/elements/MDXComponent';
 import { BlogDetailProps } from '@/common/types/blog';
@@ -7,6 +9,21 @@ import { BlogDetailProps } from '@/common/types/blog';
 import BlogHeader from './BlogHeader';
 
 const BlogDetail = (blogData: BlogDetailProps) => {
+  useEffect(() => {
+    const incrementViews = async () => {
+      try {
+        await fetch(`/api/views/${encodeURIComponent(blogData.slug)}`, {
+          method: 'POST',
+          cache: 'no-store',
+        });
+      } catch {
+        // no-op: skip analytics update when request fails
+      }
+    };
+
+    incrementViews();
+  }, [blogData.slug]);
+
   return (
     <article>
       <BlogHeader

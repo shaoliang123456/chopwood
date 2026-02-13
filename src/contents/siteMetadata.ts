@@ -5,7 +5,7 @@ export const siteMetadata = {
   siteTitle: 'Full stack web developer',
   siteScreenshot: '',
   siteDescription:
-    '全栈软件工程师，拥有丰富的设计、构建和部署现代可扩展应用程序的经验，擅长将复杂的问题转化为干净、高效的解决方案——无论是在前端、后端还是两者之间的任何地方。擅长与团队合作构建可扩展和持久的系统。如果你对高质量的工程感兴趣，并着眼于未来，请随时与我联系。',
+    "Full-stack software engineer with hands-on experience designing, building, and deploying modern, scalable web applications. I turn complex problems into clean, efficient solutions across the frontend and backend, and I enjoy collaborating to ship reliable systems that last. If you're looking for high-quality engineering with a long-term mindset, feel free to reach out.",
   author: 'chopwood',
   fullName: 'chopwood',
   location: 'China',
@@ -54,7 +54,7 @@ export const commentConfig = {
     lightTheme: 'light',
     darkTheme: 'transparent_dark',
     themeURL: '',
-    lang: 'zh-CN',
+    lang: 'en',
   },
 };
 
@@ -74,7 +74,7 @@ export const author = {
   timeZone: 'Asia/Shanghai',
   locationIcon: '🇨🇳',
   position: 'Full-Stack Software Engineer | AI Enthusiast | Code craftsman',
-  greetings: '代码雕刻想法，产品回应世界',
+  greetings: 'Code shapes ideas. Products speak to the world.',
   calMeetingUrl: '',
   status: 'Working remotely around the world',
   workingOn: `I assist brands, companies, institutions, and startups in creating

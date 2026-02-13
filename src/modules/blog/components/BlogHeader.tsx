@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { FaRegEye as ViewIcon } from 'react-icons/fa';
 import { HiOutlineClock as ClockIcon } from 'react-icons/hi';
 
 import { formatDate } from '@/common/helpers';
@@ -11,13 +10,11 @@ interface BlogHeaderProps {
   title: string;
   comments_count?: number;
   reading_time_minutes?: number;
-  page_views_count?: number | null;
   published_at?: string;
 }
 
 const BlogHeader = ({
   title,
-  page_views_count,
   published_at,
   reading_time_minutes,
 }: BlogHeaderProps) => {
@@ -75,13 +72,6 @@ const BlogHeader = ({
         </div>
 
         <div className='flex items-center gap-5'>
-          <div className='flex gap-1 items-center font-medium'>
-            <ViewIcon size={16} />
-            <div className='flex gap-1 ml-0.5'>
-              <span>{page_views_count?.toLocaleString() || '-'}</span>
-              <span>Views</span>
-            </div>
-          </div>
           <div className='flex gap-1 items-center font-medium'>
             <ClockIcon size={16} />
             <div className='flex gap-1 ml-0.5'>

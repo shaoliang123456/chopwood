@@ -8,9 +8,9 @@ import PageHeading from '@/common/components/elements/PageHeading';
 import { getCollection } from '@/common/libs/mdx';
 import { siteMetadata } from '@/contents/siteMetadata';
 
-const title = '周刊';
+const title = 'Weekly';
 const description =
-  '这里是「果酱前端周刊」，以后每周都会把看到的有趣的工具、开源项目、文章发布到周刊，欢迎关注。';
+  "A weekly digest of tools, open-source projects, and articles I'm reading.";
 
 export const metadata: Metadata = {
   title: `${title} - ${siteMetadata.author}`,

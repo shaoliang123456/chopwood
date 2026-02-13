@@ -101,12 +101,14 @@ const BlogCardNew = (blogData: BlogItemProps) => {
                   isHovered && 'hidden'
                 )}
               >
-                <div className='flex gap-1 items-center'>
-                  <ClockIcon size={14} />
-                  <span className='text-xs font-medium ml-0.5'>
-                    {blogData.props.readingTimeMinutes.toLocaleString()} MINS
-                    READ
-                  </span>
+                <div className='flex gap-3 items-center'>
+                  <div className='flex gap-1 items-center'>
+                    <ClockIcon size={14} />
+                    <span className='text-xs font-medium ml-0.5'>
+                      {blogData.props.readingTimeMinutes.toLocaleString()} MINS
+                      READ
+                    </span>
+                  </div>
                 </div>
               </motion.div>
               <motion.div

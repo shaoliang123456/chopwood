@@ -23,7 +23,7 @@ const ProjectDetail = ({
       <div className='flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-center sm:flex-row'>
         <div className='flex flex-wrap items-center gap-2'>
           <span className='text-[15px] mb-1 text-neutral-700 dark:text-neutral-300'>
-            技术栈 :
+            Tech stack:
           </span>
           <div className='flex flex-wrap items-center gap-3'>
             {stacksArray?.map((stack) => (

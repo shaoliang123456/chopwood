@@ -43,7 +43,7 @@ const ProjectLink = ({ title, link_github, link_demo }: ProjectLinkProps) => {
           icon={<GithubIcon size={16} />}
         />
       ) : (
-        <Tooltip title='代码暂未公开'>
+        <Tooltip title='Source code not public yet'>
           <div className='flex gap-2 items-center font-medium text-gray-400 dark:text-gray-500'>
             <GithubIcon size={16} />
             <span>Source Code</span>
@@ -54,7 +54,7 @@ const ProjectLink = ({ title, link_github, link_demo }: ProjectLinkProps) => {
         <span className='text-neutral-400 dark:text-neutral-600'>|</span>
       )}
       {link_demo ? (
-        <Tooltip title='查看演示'>
+        <Tooltip title='View demo'>
           <LinkComponent
             url={link_demo}
             text='Live Demo'
@@ -62,7 +62,7 @@ const ProjectLink = ({ title, link_github, link_demo }: ProjectLinkProps) => {
           />
         </Tooltip>
       ) : (
-        <Tooltip title='暂无演示'>
+        <Tooltip title='No demo available'>
           <div className='flex gap-2 items-center font-medium text-gray-400 dark:text-gray-500'>
             <LinkIcon size={16} />
             <span>Live Demo</span>

@@ -16,7 +16,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const blogData = getEntry('blog', slug);
 
   if (!blogData) {
@@ -59,7 +59,7 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogDetailPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug } = params;
   const mdxData = getEntry('blog', slug);
 
   if (!mdxData) {

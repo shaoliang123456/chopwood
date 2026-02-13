@@ -106,11 +106,6 @@ const TableOfContents = ({ content }: TableOfContentsProps) => {
   if (tocItems.length === 0) {
     return null;
   }
-  console.log(
-    '%c Line:94 🍓 tocItems',
-    'font-size:18px;color:#ffffff;background:#ed9ec7',
-    tocItems
-  );
 
   return (
     <div className='sticky top-8'>
@@ -129,7 +124,7 @@ const TableOfContents = ({ content }: TableOfContentsProps) => {
               d='M4 6h16M4 10h16M4 14h16M4 18h16'
             />
           </svg>
-          目录
+          Contents
         </h3>
         <nav className='space-y-1 overflow-y-auto max-h-96'>
           {tocItems.map((item) => (

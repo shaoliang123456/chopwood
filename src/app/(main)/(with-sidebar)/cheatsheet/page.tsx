@@ -9,8 +9,9 @@ import { getCollection } from '@/common/libs/mdx';
 import { BrandIcon } from '@/common/types/StackIcon';
 import { siteMetadata } from '@/contents/siteMetadata';
 
-const title = '开发速查表';
-const description = '精选的代码片段、命令和配置示例，提高开发效率的得力助手';
+const title = 'Developer Cheatsheet';
+const description =
+  'Curated code snippets, commands, and config examples to help you ship faster.';
 
 export const metadata: Metadata = {
   title: `${title} - ${siteMetadata.author}`,
