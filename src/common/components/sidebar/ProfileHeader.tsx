@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { MdVerified as VerifiedIcon } from 'react-icons/md';
 
-import { author, siteMetadata } from '@/contents/siteMetadata';
+import { author, siteMetadata, socialAccounts } from '@/contents/siteMetadata';
 
 import Image from '../elements/Image';
 import Tooltip from '../elements/Tooltip';
@@ -41,9 +41,14 @@ const ProfileHeader = ({ expandMenu, imageSize }: ProfileHeaderProps) => {
           <VerifiedIcon size={18} className='text-blue-400' />
         </Tooltip>
       </div>
-      <div className='hidden lg:flex text-sm font-sora text-neutral-600 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-400 transition-all duration-300'>
+      <a
+        href={socialAccounts.x}
+        target='_blank'
+        rel='noreferrer'
+        className='hidden lg:flex text-sm font-sora text-neutral-600 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-400 transition-all duration-300'
+      >
         @{author.name}
-      </div>
+      </a>
     </div>
   );
 };

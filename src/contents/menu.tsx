@@ -7,18 +7,13 @@ import {
   BsTwitter as TwitterIcon,
 } from 'react-icons/bs';
 import {
-  FiBookOpen as LearnIcon,
-  FiCode as SnippetsIcon,
   FiCoffee as ProjectIcon,
-  FiCpu as DashboardIcon,
-  FiLayers as WeeklyIcon,
   FiPieChart as AnalyticsIcon,
   FiPocket as HomeIcon,
   FiRss as BlogIcon,
   FiUser as ProfileIcon,
 } from 'react-icons/fi';
 // import { PiChatCircleDotsBold as ChatIcon } from 'react-icons/pi';
-import { SiJavascript } from 'react-icons/si';
 
 import { MenuItemProps } from '@/common/types/menu';
 import { siteMetadata, socialAccounts } from '@/contents/siteMetadata';
@@ -33,15 +28,6 @@ export const MENU_ITEMS: MenuItemProps[] = [
     isShow: true,
     isExternal: false,
     eventName: 'Pages: Home',
-    type: 'Pages',
-  },
-  {
-    title: 'Dashboard',
-    href: '/dashboard',
-    icon: <DashboardIcon size={iconSize} />,
-    isShow: true,
-    isExternal: false,
-    eventName: 'Pages: Dashboard',
     type: 'Pages',
   },
   {
@@ -63,33 +49,6 @@ export const MENU_ITEMS: MenuItemProps[] = [
     type: 'Pages',
   },
   {
-    title: 'Weekly',
-    href: '/weekly',
-    icon: <WeeklyIcon size={iconSize} />,
-    isShow: true,
-    isExternal: false,
-    eventName: 'Pages: Weekly',
-    type: 'Pages',
-  },
-  {
-    title: 'Cheatsheet',
-    href: '/cheatsheet',
-    icon: <SnippetsIcon size={iconSize} />,
-    isShow: false,
-    isExternal: false,
-    eventName: 'Pages: Snippets',
-    type: 'Pages',
-  },
-  {
-    title: 'Learn',
-    href: '/learn',
-    icon: <LearnIcon size={iconSize} />,
-    isShow: false,
-    isExternal: false,
-    eventName: 'Pages: Learn',
-    type: 'Pages',
-  },
-  {
     title: 'About',
     href: '/about',
     icon: <ProfileIcon size={iconSize} />,
@@ -105,15 +64,6 @@ export const MENU_ITEMS: MenuItemProps[] = [
     isShow: true,
     isExternal: false,
     eventName: 'Pages: Contact',
-    type: 'Pages',
-  },
-  {
-    title: 'Playground',
-    href: '/playground',
-    icon: <SiJavascript size={iconSize} />,
-    isShow: false,
-    isExternal: false,
-    eventName: 'Pages: Playground',
     type: 'Pages',
   },
 ];

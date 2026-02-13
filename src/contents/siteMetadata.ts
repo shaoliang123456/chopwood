@@ -81,16 +81,6 @@ export const author = {
   exceptional digital experiences for their businesses through strategic
   development services.`,
   workTogether: `I'm open for freelance projects, feel free to email me to see how can we collaborate.`,
-  wakatime: 'https://wakatime.com/@chopwood',
-  github_accounts: [
-    {
-      username: 'shaoliang123456',
-      token: process.env.GITHUB_READ_USER_TOKEN_PERSONAL,
-      endpoint: '/api/github?type=personal',
-      type: 'personal',
-      is_active: true,
-    },
-  ],
 };
 
 export const featureSwitch = {
@@ -100,8 +90,6 @@ export const featureSwitch = {
   meeting: false,
   guestbook: false,
   spotify: false,
-  dashboard_wakatime: true,
-  dashboard_github: true,
   topBanner: true,
 };
 

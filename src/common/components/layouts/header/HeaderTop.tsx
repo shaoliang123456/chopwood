@@ -3,15 +3,13 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useContext, useState } from 'react';
-import { BiCommand as CommandIcon } from 'react-icons/bi';
+import { useState } from 'react';
 import { FiMenu as MenuIcon } from 'react-icons/fi';
 import {
   MdClose as CloseIcon,
   MdVerified as VerifiedIcon,
 } from 'react-icons/md';
 
-import { CommandPaletteContext } from '@/common/context/CommandPaletteContext';
 import { MENU_ITEMS } from '@/contents/menu';
 import { author, siteMetadata } from '@/contents/siteMetadata';
 
@@ -22,7 +20,6 @@ import Profile from '../../sidebar/Profile';
 import useIsMobile from '../../../hooks/useIsMobile';
 
 const HeaderTop = () => {
-  const { setIsOpen } = useContext(CommandPaletteContext);
   const [showMenu, setShowMenu] = useState(false);
 
   const pathname = usePathname();
@@ -84,16 +81,7 @@ const HeaderTop = () => {
             </div>
           )}
 
-          {!showMenu && (
-            <>
-              {!isMobile && <ThemeToggleButton />}
-              <CommandIcon
-                onClick={() => setIsOpen(true)}
-                className='cursor-pointer'
-                size={20}
-              />
-            </>
-          )}
+          {!showMenu && <>{!isMobile && <ThemeToggleButton />}</>}
 
           <button
             className='flex items-center gap-2 dark:bg-neutral-900 backdrop-blur border dark:border-neutral-700 rounded-md p-2'

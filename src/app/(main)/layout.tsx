@@ -6,12 +6,10 @@ import { useTheme } from 'next-themes';
 import { ReactNode, useEffect } from 'react';
 import { useWindowSize } from 'usehooks-ts';
 
-import CommandPalette from '@/common/components/elements/CommandPalette';
 import NowPlayingBar from '@/common/components/elements/NowPlayingBar';
 import NowPlayingCard from '@/common/components/elements/NowPlayingCard';
 import ProgressBar from '@/common/components/elements/ProgressBar';
 import TopBar from '@/common/components/elements/TopBar';
-import { CommandPaletteProvider } from '@/common/context/CommandPaletteContext';
 import useHasMounted from '@/common/hooks/useHasMounted';
 import { featureSwitch } from '@/contents/siteMetadata';
 
@@ -40,7 +38,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <CommandPaletteProvider>
+    <>
       {featureSwitch.topBanner && <TopBar />}
       <div
         className={clsx(
@@ -48,11 +46,10 @@ export default function MainLayout({ children }: { children: ReactNode }) {
           isDarkTheme ? 'dark:text-darkText' : ''
         )}
       >
-        <CommandPalette />
         <ProgressBar />
         {children}
       </div>
       <Spotify />
-    </CommandPaletteProvider>
+    </>
   );
 }
