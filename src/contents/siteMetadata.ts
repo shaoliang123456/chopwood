@@ -61,7 +61,7 @@ export const commentConfig = {
 export const socialAccounts = {
   x: 'https://x.com/shaoliang8',
   instagram: '',
-  email: 'chopwood@qq.com',
+  email: 'hello@chopwood.me',
   github: 'https://github.com/shaoliang123456',
   facebook: '',
   youtube: '',

@@ -15,20 +15,25 @@ const SocialMedia = ({ items }: SocialMediaProps) => {
         Let's Connect
       </div>
       <div className='flex justify-between px-5 pt-2'>
-        {items?.map((item: MenuItemProps, index: number) => (
-          <Link
-            key={index}
-            href={item?.href}
-            target='_blank'
-            data-umami-event={item?.eventName}
-          >
-            <Tooltip title={item?.title}>
-              <div className='text-neutral-700 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-300 lg:hover:scale-110 transition duration-300'>
-                {item?.icon}
-              </div>
-            </Tooltip>
-          </Link>
-        ))}
+        {items?.map((item: MenuItemProps, index: number) => {
+          const isMailTo = item?.href?.startsWith('mailto:');
+
+          return (
+            <Link
+              key={index}
+              href={item?.href}
+              target={isMailTo ? undefined : '_blank'}
+              rel={isMailTo ? undefined : 'noopener noreferrer'}
+              data-umami-event={item?.eventName}
+            >
+              <Tooltip title={item?.title}>
+                <div className='text-neutral-700 dark:text-neutral-400 hover:text-neutral-900 hover:dark:text-neutral-300 lg:hover:scale-110 transition duration-300'>
+                  {item?.icon}
+                </div>
+              </Tooltip>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
