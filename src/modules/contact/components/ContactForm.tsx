@@ -11,12 +11,14 @@ interface FormDataProps {
   name: string;
   email: string;
   message: string;
+  website: string;
 }
 
 const formInitialState: FormDataProps = {
   name: '',
   email: '',
   message: '',
+  website: '',
 };
 
 const ContactForm = () => {
@@ -41,6 +43,7 @@ const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
 
     const hasErrors = Object.values(formErrors).some((error) => error);
 
@@ -51,21 +54,37 @@ const ContactForm = () => {
         if (response.status === 200) {
           alert('Message sent!');
           setFormData(formInitialState);
+          setFormErrors({});
         }
       } catch (error) {
-        alert(error);
+        const message = axios.isAxiosError(error)
+          ? error.response?.data?.message || 'Failed to send message.'
+          : 'Failed to send message.';
+        alert(message);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     } else {
       alert('Error!');
     }
   };
 
-  const isSubmitDisabled = Object.values(formErrors).some((error) => error);
+  const isSubmitDisabled =
+    isLoading || Object.values(formErrors).some((error) => error);
 
   return (
     <form onSubmit={handleSubmit}>
       <div className='flex flex-col grow gap-5'>
+        <input
+          type='text'
+          name='website'
+          value={formData.website}
+          onChange={handleChange}
+          className='hidden'
+          tabIndex={-1}
+          autoComplete='off'
+          aria-hidden='true'
+        />
         <div className='flex flex-col md:flex-row gap-5'>
           <input
             className='w-full py-2 px-3 rounded-md border border-neutral-200 focus:outline-none dark:border-neutral-700'
@@ -112,7 +131,7 @@ const ContactForm = () => {
         <ClockIcon />
         <div className='text-sm'>
           <span className='font-medium'>Avg. response:</span> 1-2 Hours (Working
-          Hours, GMT+7)
+          Hours, GMT+8)
         </div>
       </div>
     </form>

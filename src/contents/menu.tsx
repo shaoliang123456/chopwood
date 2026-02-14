@@ -4,7 +4,7 @@ import {
   BsGithub as GithubIcon,
   BsInstagram as InstagramIcon,
   BsLinkedin as LinkedinIcon,
-  BsTwitter as TwitterIcon,
+  BsTwitterX as XIcon,
 } from 'react-icons/bs';
 import {
   FiCoffee as ProjectIcon,
@@ -91,13 +91,13 @@ export const SOCIAL_MEDIA: MenuItemProps[] = [
     type: 'Link',
   },
   {
-    title: 'Twitter',
+    title: 'X',
     href: socialAccounts.x,
-    icon: <TwitterIcon size={iconSize} />,
+    icon: <XIcon size={iconSize} />,
     isShow: true,
     isExternal: true,
-    eventName: 'Social: Twitter',
-    className: 'bg-sky-500! border border dark:border-neutral-700',
+    eventName: 'Social: X',
+    className: 'bg-black! border border dark:border-neutral-700',
     type: 'Link',
   },
   {

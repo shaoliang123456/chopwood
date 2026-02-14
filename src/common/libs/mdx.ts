@@ -42,6 +42,12 @@ const debugWarn = (...args: unknown[]) => {
   }
 };
 
+const debugError = (...args: unknown[]) => {
+  if (isMdxDebugEnabled) {
+    console.error(...args);
+  }
+};
+
 // 内存缓存
 const cache = new Map<string, CacheEntry>();
 const CACHE_TTL = 1000 * 60 * 5; // 5分钟缓存
@@ -77,7 +83,7 @@ const hasDirectoryChanged = (dirPath: string): boolean => {
 
     return hasChanges;
   } catch (error) {
-    console.error('Error checking directory changes:', error);
+    debugError('Error checking directory changes:', error);
     return true; // 出错时假设有变化
   }
 };
@@ -168,7 +174,7 @@ export const _loadMdxFiles = (
           };
         }
       } catch (error) {
-        console.error(`Error processing file ${file}:`, error);
+        debugError(`Error processing file ${file}:`, error);
         // Return a minimal valid object to avoid breaking the entire collection
         return {
           slug: file,
@@ -190,7 +196,7 @@ export const _loadMdxFiles = (
     debugLog(`Successfully processed ${contents.length} MDX files`);
     return contents;
   } catch (error) {
-    console.error(`Error in _loadMdxFiles:`, error);
+    debugError(`Error in _loadMdxFiles:`, error);
     return [];
   }
 };
@@ -267,7 +273,7 @@ export const getCollection = (
 
     return files;
   } catch (error) {
-    console.error(`Error in getCollection(${endpointer}):`, error);
+    debugError(`Error in getCollection(${endpointer}):`, error);
     return [];
   }
 };
@@ -330,7 +336,7 @@ export const getEntry = (
     } else {
       // This case should ideally not be reached if entry was found in the metadata-only collection.
       // As a safeguard, return the original entry (which lacks content).
-      console.error(
+      debugError(
         `❌ Entry [${slug}] not found in full collection after being found in metadata-only collection. Returning metadata only.`
       );
       return entry;
@@ -392,7 +398,7 @@ export const loadSingleMdxFile = (
       };
     }
   } catch (error) {
-    console.error(`Error loading single MDX file ${filePath}:`, error);
+    debugError(`Error loading single MDX file ${filePath}:`, error);
     return null;
   }
 };
@@ -433,7 +439,7 @@ export const readSettingsFile = async (): Promise<string> => {
     const filePath = path.join(process.cwd(), 'src/contents/siteMetadata.ts');
     return fs.readFileSync(filePath, 'utf-8');
   } catch (error) {
-    console.error('Error reading settings file:', error);
+    debugError('Error reading settings file:', error);
     return '';
   }
 };
