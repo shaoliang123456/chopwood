@@ -5,7 +5,7 @@ export const siteMetadata = {
   siteTitle: 'Full stack web developer',
   siteScreenshot: '',
   siteDescription:
-    "Full-stack software engineer with hands-on experience designing, building, and deploying modern, scalable web applications. I turn complex problems into clean, efficient solutions across the frontend and backend, and I enjoy collaborating to ship reliable systems that last. If you're looking for high-quality engineering with a long-term mindset, feel free to reach out.",
+    'I build AI-powered mobile apps (Flutter) with FastAPI backends — chat, RAG, agents, image/audio features, and production deployment.',
   author: 'chopwood',
   fullName: 'chopwood',
   location: 'China',
@@ -73,8 +73,8 @@ export const author = {
   location: 'China',
   timeZone: 'Asia/Shanghai',
   locationIcon: '🇨🇳',
-  position: 'Full-Stack Software Engineer | AI Enthusiast | Code craftsman',
-  greetings: 'Code shapes ideas. Products speak to the world.',
+  position: 'AI App Engineer | Flutter · FastAPI | LLM · RAG · Agents',
+  greetings: 'Build AI apps people actually use.',
   calMeetingUrl: '',
   status: 'Working remotely around the world',
   workingOn: `I assist brands, companies, institutions, and startups in creating
